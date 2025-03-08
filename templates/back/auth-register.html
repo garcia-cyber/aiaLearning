@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Mazer Admin Dashboard</title>
+    <title>Compte | apprenant</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{{url_for('static',filename = 'front/images/favicon.png')}}" />
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/bootstrap.css">
-    <link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
-    <link rel="stylesheet" href="assets/css/app.css">
-    <link rel="stylesheet" href="assets/css/pages/auth.css">
+    <link rel="stylesheet" href="{{url_for('static', filename = 'back/assets/css/bootstrap.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename = 'back/assets/vendors/bootstrap-icons/bootstrap-icons.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename = 'back/assets/css/app.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename = 'back/assets/css/pages/auth.css')}}">
 </head>
 
 <body>
@@ -19,42 +20,58 @@
             <div class="col-lg-5 col-12">
                 <div id="auth-left">
                     <div class="auth-logo">
-                        <a href="index.html"><img src="assets/images/logo/logo.png" alt="Logo"></a>
+                        <a href=""><img src="{{url_for('static', filename = 'back/assets/images/logo/logo.png')}}" alt="Logo"></a>
                     </div>
-                    <h1 class="auth-title">Sign Up</h1>
-                    <p class="auth-subtitle mb-5">Input your data to register to our website.</p>
 
-                    <form action="index.html">
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for i in messages %}
+                                <div class="alert alert-danger">{{i}}</div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    <h1 class="auth-title"> compte apprenant</h1>
+                    
+
+                    <form action="/apprenant" method="post">
+
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="text" class="form-control form-control-xl" placeholder="Email">
+                            <input type="text" class="form-control form-control-xl" name="noms" required placeholder="Noms complet">
+                            <div class="form-control-icon">
+                                <i class="bi bi-person"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group position-relative has-icon-left mb-4">
+                            <input type="text" class="form-control form-control-xl" name="email" required placeholder="Email">
                             <div class="form-control-icon">
                                 <i class="bi bi-envelope"></i>
                             </div>
                         </div>
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="text" class="form-control form-control-xl" placeholder="Username">
+                            <input type="text" class="form-control form-control-xl" name="user"  required placeholder="Nom utilisateur">
                             <div class="form-control-icon">
                                 <i class="bi bi-person"></i>
                             </div>
                         </div>
+
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="password" class="form-control form-control-xl" placeholder="Password">
+                            <input type="password" class="form-control form-control-xl" name="pwd" required placeholder="Password">
                             <div class="form-control-icon">
                                 <i class="bi bi-shield-lock"></i>
                             </div>
                         </div>
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="password" class="form-control form-control-xl" placeholder="Confirm Password">
+                            <input type="password" class="form-control form-control-xl" name="pwd2" required placeholder="Confirm Password">
                             <div class="form-control-icon">
                                 <i class="bi bi-shield-lock"></i>
                             </div>
                         </div>
-                        <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Sign Up</button>
+                        <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Valider</button>
                     </form>
                     <div class="text-center mt-5 text-lg fs-4">
-                        <p class='text-gray-600'>Already have an account? <a href="auth-login.html"
-                                class="font-bold">Log
-                                in</a>.</p>
+                        <p class='text-gray-600'>Vous avez deja un compte ? <a href="/login"
+                                class="font-bold">Login</a>.</p>
                     </div>
                 </div>
             </div>

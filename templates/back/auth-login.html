@@ -23,11 +23,19 @@
                     <div class="auth-logo">
                         <a href="/login"><img src="{{url_for('static',filename = 'back/assets/images/logo/logo.png')}}" alt="Logo"></a>
                     </div>
+
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for i in messages %}
+                                <div class="alert alert-danger">{{i}}</div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
                     <h1 class="auth-title">se connecter</h1>
             
                     <form action="/login" method="post">
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="text" name="username" class="form-control form-control-xl" placeholder="nomutilisateur">
+                            <input type="text" name="username" class="form-control form-control-xl" placeholder="nom utilisateur">
                             <div class="form-control-icon">
                                 <i class="bi bi-person"></i>
                             </div>

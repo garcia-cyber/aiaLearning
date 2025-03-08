@@ -19,6 +19,7 @@ con.execute("""
              )
 """) 
 
-
+#info defaut 
+#con.execute("insert into acteurs(nomsActeur,emailActeur,nomUtilisateur,fonctionActeur,passwordActeur) values('admin','admin@gmail.com','admin','admin','admin')")
 
 con.commit()

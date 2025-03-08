@@ -13,7 +13,12 @@ app.secret_key = "mukokoGarciaDev"
 def home():
     return render_template('front/index.html') 
 
-
+# login 
+#
+#
+@app.route("/login", methods = ['POST','GET'])
+def login():
+    return render_template('back/auth-login.html')
 
 ## boucle 
 

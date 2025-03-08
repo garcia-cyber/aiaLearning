@@ -122,6 +122,51 @@ def apprenant():
     return render_template('back/auth-register.html')
 
 
+###
+# ###
+# creation de compte formateur
+# 
+# 
+@app.route("/formateur", methods = ['POST','GET'])
+def formateur():
+    if request.method == 'POST':
+        noms = request.form['noms'] 
+        email = request.form['email']
+        user = request.form['user']
+        pwd  = request.form['pwd']
+        pwd2 = request.form['pwd2']
+        role = 'formateur'
+
+        with sqlite3.connect("aia.db") as con :
+            # verification du email 
+            mail = con.cursor()
+            mail.execute("select * from acteurs where emailActeur = ? ",[email]) 
+            dataMail = mail.fetchone()
+
+            # verification du nom utilisateur 
+            use = con.cursor()
+            use.execute("select * from acteurs where nomUtilisateur = ?", [user]) 
+            dataUse = use.fetchone() 
+
+            if dataMail:
+                flash('le email existe deja ')
+            elif dataUse:
+                flash("le nom d'utilisateur existe deja") 
+            elif pwd2 == pwd:
+                add = con.cursor()
+                add.execute("insert into acteurs(nomsActeur,emailActeur,nomUtilisateur,fonctionActeur,passwordActeur) values(?,?,?,?,?)",[noms,email,user,role,pwd])
+                con.commit()
+                
+                return redirect('/login')
+            else:
+                flash("le mot de passe doit etre conforme")        
+
+
+        
+
+    return render_template('back/formateur.html')
+
+
 ## boucle 
 
 

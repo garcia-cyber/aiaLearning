@@ -22,4 +22,25 @@ con.execute("""
 #info defaut 
 #con.execute("insert into acteurs(nomsActeur,emailActeur,nomUtilisateur,fonctionActeur,passwordActeur) values('admin','admin@gmail.com','admin','admin','admin')")
 
+## creation de la table module 
+con.execute("""
+            create table if not exists modules
+            (
+            idModule integer primary key autoincrement ,
+             libModule varchar(20)
+            )
+            """)
+
+##
+# creation de la table formation 
+con.execute("""
+            create table if not exists formations(
+            idFormation integer primary key autoincrement,
+            moduleID integer , 
+            acteurID integer , 
+            statut char(3) default 'non' ,
+            foreign key(moduleID) references modules(idModule),
+            foreign key(acteurID) references acteurs(idActeur) )
+
+            """)
 con.commit()

@@ -164,8 +164,152 @@ def formateur():
 
         
 
-    return render_template('back/formateur.html')
+    return render_template('back/formateur.html') 
 
+# ajout de module
+#
+# form-layout.html
+@app.route("/addModule" ,methods =['POST','GET'] )
+def addModule():
+    if 'aia' in session:
+        if request.method == 'POST':
+            module = request.form['module']
+
+            with sqlite3.connect("aia.db") as con :
+                md = con.cursor()
+                md.execute("select * from modules where libModule = ?",[module])
+                dataMd = md.fetchone()
+
+                if dataMd:
+                    flash("le module existe deja dans le systeme !!!".upper())
+                else:
+                    cur = con.cursor()
+                    cur.execute("insert into modules(libModule) values(?)",[module])
+                    con.commit()
+                    flash(f" {module} ajoutee avec succes !!!!!")
+        return render_template('back/form-layout.html') 
+    else:
+        return redirect('/login')
+
+##
+#
+# Liste de module 
+#
+#
+@app.route('/listeModule') 
+def listeModule():
+    if 'aia' in session:
+        with sqlite3.connect('aia.db') as con :
+            cur = con.cursor()
+            cur.execute("select * from modules")
+            data = cur.fetchall()
+
+            return render_template('back/listeModule.html',data = data) 
+    else:
+        return redirect('/login')
+
+###
+##
+# messages
+# application-email.html
+@app.route('/message')
+def message():
+    if 'aia' in session:
+        return render_template('back/application-email.html')
+    else:
+        return redirect('/') 
+    
+#
+#
+#formation 
+@app.route('/formation', methods=['POST','GET'])
+def formation():
+    if 'aia' in session:
+        if request.method == 'POST':
+            formation = request.form['formation']
+            
+
+            with sqlite3.connect("aia.db") as con :
+                #verification de la formation 
+                ver = con.cursor()
+                ver.execute("select * from formations where moduleID = ? and acteurID = ?",[formation,session['id']])
+                dataV = ver.fetchone()
+
+                if dataV:
+                    flash("vous suivez deja ce module !!!!")
+                elif int(formation) == 1 :
+                    
+                    cur = con.cursor()
+                    cur.execute("insert into formations(moduleID,acteurID) values(?,?)",[formation,session['id']]) 
+                    con.commit()
+                    cur.close()
+
+                    flash("veillez consulte votre messagerie pour la suite de la formation")
+
+
+                    
+                else:
+                    cur = con.cursor()
+                    cur.execute("insert into formations(moduleID,acteurID) values(?,?)",[formation,session['id']]) 
+                    con.commit()
+                    cur.close()
+
+                    flash("veillez consulte votre messagerie pour la suite de la formation")
+                    
+
+        
+        with sqlite3.connect('aia.db') as con:
+
+            cur = con.cursor()
+            cur.execute("select * from modules") 
+            data = cur.fetchall()
+
+            return render_template('back/formation.html',data = data)  
+    else:
+        return redirect('/login')
+
+#
+# #
+# chat
+# 
+@app.route('/chat')
+def chat():
+    if 'aia' in session:
+        return render_template('back/application-chat.html') 
+    else: 
+        return redirect('/')    
+    
+#
+# liste des informations 
+# 
+@app.route('/listeFormation')
+def listeFormation():
+    if 'aia' in session:
+        with sqlite3.connect("aia.db") as con :
+            cur = con.cursor()
+            cur.execute("select idFormation,nomsActeur,nomUtilisateur,emailActeur,libModule,statut from formations inner join acteurs on formations.acteurID = acteurs.idActeur inner join modules on formations.moduleID = modules.idModule")
+            data = cur.fetchall()
+
+        return render_template("back/listeFormation.html", data = data)  
+    else:
+        return redirect('/')    
+    
+##
+#
+# suppresion depuis la table formation
+@app.route("/dropFormation/<string:idFormation>", methods = ['POST','GET'])
+def dropFormation(idFormation):
+    with sqlite3.connect('aia.db') as con :
+        cur = con.cursor()
+        cur.execute("delete from formations where idFormation = ?",[idFormation]) 
+        con.commit()
+    
+        return redirect('/listeFormation')  
+
+##
+# #
+# 
+# autorisation    
 
 ## boucle 
 

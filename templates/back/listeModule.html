@@ -4,11 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> module </title>
+    <title>liste niveau</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{url_for('static',filename = 'back/assets/css/bootstrap.css')}}">
+
+    <link rel="stylesheet" href="{{url_for('static',filename = 'back/assets/vendors/simple-datatables/style.css')}}">
 
     <link rel="stylesheet" href="{{url_for('static',filename = 'back/assets/vendors/perfect-scrollbar/perfect-scrollbar.css')}}">
     <link rel="stylesheet" href="{{url_for('static',filename = 'back/assets/vendors/bootstrap-icons/bootstrap-icons.css')}}">
@@ -30,7 +32,6 @@
                         </div>
                     </div>
                 </div>
-
                 {% include '_menu/menu.html'%}
                 <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
             </div>
@@ -46,77 +47,53 @@
                 <div class="page-title">
                     <div class="row">
                         <div class="col-12 col-md-6 order-md-1 order-last">
-                            <h3>Form Layout</h3>
-                            <p class="text-subtitle text-muted">Multiple form layout you can use</p>
+                            <h3>DataTable</h3>
+                            <p class="text-subtitle text-muted">For user to check they list</p>
                         </div>
                         <div class="col-12 col-md-6 order-md-2 order-first">
                             <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Form Layout</li>
+                                    <li class="breadcrumb-item active" aria-current="page">DataTable</li>
                                 </ol>
                             </nav>
                         </div>
                     </div>
                 </div>
-
-                <!-- Basic Horizontal form layout section start -->
-                <section id="basic-horizontal-layouts">
-                    <div class="row match-height">
-                        <div class="col-md-6 col-12">
-                            <div class="card">
-                                                {% with messages = get_flashed_messages() %}
-                                                    {% if messages %}
-                                                        {% for i in messages %}
-                                                            <div class="alert alert-primary">{{i}}</div>
-                                                        {% endfor %}
-                                                    {% endif %}
-                                                {% endwith %}
-                                <div class="card-header">
-                                    <h4 class="card-title">Niveaux</h4>
-                                </div>
-                                <div class="card-content">
-                                    <div class="card-body">
-                                        <form class="form form-horizontal" method="post" action="/addModule">
-                                            <div class="form-body">
-                                                <div class="row">
-                                                    
-                                                    <div class="col-md-4">
-                                                        <label>Niveau</label>
-                                                    </div>
-                                                    <div class="col-md-8 form-group">
-                                                        <input type="text" id="first-name" required class="form-control"
-                                                            name="module" placeholder="ajout du niveau">
-                                                    </div>
-                                                   
-                                                    
-                                                  
-                                                   
-                                                    <div class="col-sm-12 d-flex justify-content-end">
-                                                        <button type="submit"
-                                                            class="btn btn-primary me-1 mb-1">Ajouter</button>
-                                                        
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
+                <section class="section">
+                    <div class="card">
+                        <div class="card-header">
+                            Liste utilisateurs
                         </div>
-                        
+                        <div class="card-body">
+                            <table class="table table-striped" id="table1">
+                                <thead>
+                                    <tr class="text-capitalize">
+                                        <th>id</th>
+                                        <th>libelle niveaux</th>
+                                        
+                                        <th>Action</th> 
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                     {% for i in data %}
+                                    <tr class="text-capitalize">
+                                        <td>{{i[0]}}</td>
+                                        <td>{{i[1]}}</td>
+                                        
+                                        <td>
+                                            <a href="" class="badge btn btn-info">Modifier</a>
+                                            <a href="" class="badge btn btn-danger">Supprimer</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %} 
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+
                 </section>
-                <!-- // Basic Horizontal form layout section end -->
-
-                <!-- Basic Vertical form layout section start -->
-               
-                <!-- // Basic Vertical form layout section end -->
-
-
-                <!-- // Basic multiple Column Form section start -->
-                
-                <!-- // Basic multiple Column Form section end -->
             </div>
 
             <footer>
@@ -134,6 +111,13 @@
     </div>
     <script src="{{url_for('static',filename = 'back/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
     <script src="{{url_for('static',filename = 'back/assets/js/bootstrap.bundle.min.js')}}"></script>
+
+    <script src="{{url_for('static',filename = 'back/assets/vendors/simple-datatables/simple-datatables.j')}}s"></script>
+    <script>
+        // Simple Datatable
+        let table1 = document.querySelector('#table1');
+        let dataTable = new simpleDatatables.DataTable(table1);
+    </script>
 
     <script src="{{url_for('static',filename = 'back/assets/js/main.js')}}"></script>
 </body>

@@ -52,7 +52,7 @@
                         <div class="col-12 col-md-6 order-md-2 order-first">
                             <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">Form Layout</li>
                                 </ol>
                             </nav>
@@ -63,7 +63,7 @@
                 <!-- Basic Horizontal form layout section start -->
                 <section id="basic-horizontal-layouts">
                     <div class="row match-height">
-                        <div class="col-md-6 col-12">
+                        <div class="col-md-9 col-12">
                             <div class="card">
                                                 {% with messages = get_flashed_messages() %}
                                                     {% if messages %}
@@ -73,20 +73,24 @@
                                                     {% endif %}
                                                 {% endwith %}
                                 <div class="card-header">
-                                    <h4 class="card-title">Niveaux</h4>
+                                    <h4 class="card-title">Formations</h4>
                                 </div>
                                 <div class="card-content">
                                     <div class="card-body">
-                                        <form class="form form-horizontal" method="post" action="/addModule">
+                                        <form class="form form-horizontal" method="post" action="/formation">
                                             <div class="form-body">
                                                 <div class="row">
                                                     
                                                     <div class="col-md-4">
-                                                        <label>Niveau</label>
+                                                        <label>Formation</label>
                                                     </div>
                                                     <div class="col-md-8 form-group">
-                                                        <input type="text" id="first-name" required class="form-control"
-                                                            name="module" placeholder="ajout du niveau">
+                                                        
+                                                            <select name="formation" class="form-control" id="">
+                                                                {% for i in data %}
+                                                                <option value="{{i[0]}}">{{i[1]}}</option>
+                                                                {% endfor %}
+                                                            </select>
                                                     </div>
                                                    
                                                     
@@ -94,7 +98,7 @@
                                                    
                                                     <div class="col-sm-12 d-flex justify-content-end">
                                                         <button type="submit"
-                                                            class="btn btn-primary me-1 mb-1">Ajouter</button>
+                                                            class="btn btn-outline-primary me-1 mb-1">valider</button>
                                                         
                                                     </div>
                                                 </div>
@@ -119,17 +123,7 @@
                 <!-- // Basic multiple Column Form section end -->
             </div>
 
-            <footer>
-                <div class="footer clearfix mb-0 text-muted">
-                    <div class="float-start">
-                        <p>2021 &copy; Mazer</p>
-                    </div>
-                    <div class="float-end">
-                        <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
-                                href="http://ahmadsaugi.com">A. Saugi</a></p>
-                    </div>
-                </div>
-            </footer>
+            
         </div>
     </div>
     <script src="{{url_for('static',filename = 'back/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
